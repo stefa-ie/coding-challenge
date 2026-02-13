@@ -3,13 +3,22 @@
     import { ChevronsUpDown } from "lucide-svelte";
     import Button from "../Button/Button.svelte";
 
-    const { toggle } = getContext<{ toggle: () => void }>('menu');
+    const { open, toggle, selectedLabel } = getContext<{
+        open: import("svelte/store").Writable<boolean>;
+        toggle: () => void;
+        selectedLabel: import("svelte/store").Writable<string | null>;
+    }>("menu");
 </script>
 
 <Button
     type="button"
-    on:click={toggle}
+    onClick={toggle}
+    showFocusStroke={!$open}
 >
-    <slot />
-    <ChevronsUpDown class="w-20 h-20 text-black" />
+    {#if $selectedLabel}
+        <span class="font-normal text-base text-gray-800">{$selectedLabel}</span>
+    {:else}
+        <slot />
+    {/if}
+    <ChevronsUpDown class="w-4 h-4 text-gray-500 shrink-0" />
 </Button>

@@ -3,15 +3,24 @@
     import { writable, type Writable } from "svelte/store";
 
     const open: Writable<boolean> = writable(false);
+    const selectedLabel: Writable<string | null> = writable(null);
 
     function toggle() {
         open.update(v => !v);
     }
 
-    // Providing values to children
-    setContext("menu", { open, toggle });
+    function close() {
+        open.set(false);
+    }
+
+    function select(label: string) {
+        selectedLabel.set(label);
+        close();
+    }
+
+    setContext("menu", { open, toggle, close, select, selectedLabel });
 </script>
 
-<div class="menu">
+<div class="menu relative w-[250px]">
     <slot />
 </div>

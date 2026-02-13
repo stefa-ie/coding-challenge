@@ -5,13 +5,18 @@
   import MenuItem from "./components/Menu/MenuItem.svelte";
 </script>
 
-<main>
+<main class="min-h-screen w-full flex justify-center items-center bg-[#e5e5e5]">
   <Menu>
     <MenuButton>
-      <span class="font-['Inter'] font-normal text-base text-gray-500">
+      <span class="font-normal text-base text-gray-500">
         Select a product
       </span>
     </MenuButton>
+    <MenuDropdown>
+      <MenuItem value="Website">Website</MenuItem>
+      <MenuItem value="Web App">Web App</MenuItem>
+      <MenuItem value="Mobile App">Mobile App</MenuItem>
+    </MenuDropdown>
   </Menu>
 </main>
 
