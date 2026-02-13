@@ -1,4 +1,7 @@
 <script lang="ts">
+    /**
+     * Button – reusable trigger; supports optional focus ring and element binding for accessibility.
+     */
     export let onClick = () => {};
     export let type: any = "button";
     export let disabled: boolean = false;

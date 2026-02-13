@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Base: Inter regular 16px for all text */
 @layer base {
   body {
     font-family: "Inter", sans-serif;
@@ -8,7 +9,7 @@
   }
 }
 
-/* M3 typography: display/large */
+/* M3 typography: display/large (57px / 64px line-height / 400) */
 @layer components {
   .m3-display-large {
     font-family: "Inter", sans-serif;

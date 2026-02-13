@@ -1,4 +1,7 @@
 <script lang="ts">
+    /**
+     * MenuDropdown – listbox panel; shown when open, receives keyboard focus.
+     */
     import { getContext } from "svelte";
     import { tick } from "svelte";
     import type { Writable } from "svelte/store";
@@ -21,14 +24,17 @@
 
     let listboxEl: HTMLDivElement;
 
+    // For aria-activedescendant so screen readers announce the focused option
     $: activeId = $options[$focusedIndex] != null ? listboxId + "-option-" + $focusedIndex : undefined;
 
+    // Move focus into listbox when it opens (keyboard accessibility)
     $: if ($open && listboxEl) {
         tick().then(() => listboxEl?.focus());
     }
 </script>
 
 {#if $open}
+    <!-- listbox: 250×132, 6px horizontal inset for 238px option rows, 3px vertical gap -->
     <div
         bind:this={listboxEl}
         role="listbox"

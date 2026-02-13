@@ -1,13 +1,19 @@
 <script lang="ts">
+    /**
+     * Menu (root) – shared state and behaviour for the select/dropdown.
+     * Provides context to MenuButton, MenuDropdown, and MenuItem.
+     */
     import { setContext } from "svelte";
     import { writable, type Writable } from "svelte/store";
 
+    // --- State ---
     const open: Writable<boolean> = writable(false);
     const selectedLabel: Writable<string | null> = writable(null);
     const options: Writable<string[]> = writable([]);
     const focusedIndex: Writable<number> = writable(0);
     const buttonEl: Writable<HTMLButtonElement | null> = writable(null);
 
+    // Unique IDs for accessibility (ARIA listbox/combobox)
     const menuId = "menu-" + Math.random().toString(36).slice(2, 9);
     const listboxId = menuId + "-listbox";
     const buttonId = menuId + "-button";
@@ -30,6 +36,7 @@
         open.update((v) => !v);
     }
 
+    // When dropdown opens, set keyboard focus to the selected option (or first)
     $: if ($open && $options.length > 0 && justOpened) {
         justOpened = false;
         const i = $selectedLabel != null ? $options.indexOf($selectedLabel) : -1;
@@ -46,6 +53,7 @@
         close();
     }
 
+    /** Called by each MenuItem on mount to get a stable id and index for ARIA. */
     function registerOption(value: string): { id: string; index: number } {
         const index = optionsList.length;
         optionsList.push(value);
@@ -58,6 +66,7 @@
         if (i >= 0 && i < opts.length) select(opts[i]);
     }
 
+    /** Arrow keys, Enter, Space, Escape for accessible listbox. */
     function handleListboxKeydown(e: KeyboardEvent) {
         const opts = $options;
         const len = opts.length;
@@ -100,6 +109,7 @@
     });
 </script>
 
+<!-- Wrapper for trigger + dropdown; dropdown is absolutely positioned inside. -->
 <div class="menu relative w-[250px]">
     <slot />
 </div>

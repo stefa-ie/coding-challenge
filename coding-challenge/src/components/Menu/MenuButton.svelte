@@ -1,4 +1,7 @@
 <script lang="ts">
+    /**
+     * MenuButton – trigger that opens/closes the listbox and shows selected or placeholder.
+     */
     import { getContext } from "svelte";
     import { ChevronsUpDown } from "lucide-svelte";
     import Button from "../Button/Button.svelte";
@@ -13,9 +16,11 @@
     }>("menu");
 
     let buttonEl: HTMLButtonElement | null = null;
+    // Register button ref so Menu can return focus on close (accessibility)
     $: if (buttonEl != null) setButtonEl(buttonEl);
 </script>
 
+<!-- ARIA: combobox pattern with listbox; focus stroke only when closed -->
 <Button
     bind:element={buttonEl}
     type="button"
@@ -27,6 +32,7 @@
     onClick={toggle}
     showFocusStroke={!$open}
 >
+    <!-- Selected value or placeholder from slot -->
     {#if $selectedLabel}
         <span class="font-normal text-base text-gray-800">{$selectedLabel}</span>
     {:else}
