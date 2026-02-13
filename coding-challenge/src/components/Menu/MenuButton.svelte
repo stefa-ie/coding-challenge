@@ -3,15 +3,27 @@
     import { ChevronsUpDown } from "lucide-svelte";
     import Button from "../Button/Button.svelte";
 
-    const { open, toggle, selectedLabel } = getContext<{
+    const { open, toggle, selectedLabel, buttonId, listboxId, setButtonEl } = getContext<{
         open: import("svelte/store").Writable<boolean>;
         toggle: () => void;
         selectedLabel: import("svelte/store").Writable<string | null>;
+        buttonId: string;
+        listboxId: string;
+        setButtonEl: (el: HTMLButtonElement | null) => void;
     }>("menu");
+
+    let buttonEl: HTMLButtonElement | null = null;
+    $: if (buttonEl != null) setButtonEl(buttonEl);
 </script>
 
 <Button
+    bind:element={buttonEl}
     type="button"
+    id={buttonId}
+    aria-haspopup="listbox"
+    aria-expanded={$open}
+    aria-controls={listboxId}
+    aria-label="Select a product"
     onClick={toggle}
     showFocusStroke={!$open}
 >
