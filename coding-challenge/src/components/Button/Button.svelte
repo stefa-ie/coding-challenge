@@ -3,7 +3,7 @@
     export let type: any = "button";
     export let disabled: boolean = false;
 
-    const base = "w-[250px] h-[40px] rounded-lg bg-gray-100 flex items-center justify-between px-4"
+    const base = "w-[250px] h-[40px] rounded-lg border border-black/30 bg-white flex items-center justify-between px-4 hover:bg-gray-50"
 </script>
 
 <button 
