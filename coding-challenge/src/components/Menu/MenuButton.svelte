@@ -6,6 +6,9 @@
     import { ChevronsUpDown } from "lucide-svelte";
     import Button from "../Button/Button.svelte";
 
+    /** When true, the trigger receives focus on load so keyboard users can open immediately (e.g. Enter). */
+    export let autofocus = false;
+
     const { open, toggle, selectedLabel, buttonId, listboxId, setButtonEl } = getContext<{
         open: import("svelte/store").Writable<boolean>;
         toggle: () => void;
@@ -31,6 +34,7 @@
     aria-label="Select a product"
     onClick={toggle}
     showFocusStroke={!$open}
+    autofocus={autofocus}
 >
     <!-- Selected value or placeholder from slot -->
     {#if $selectedLabel}

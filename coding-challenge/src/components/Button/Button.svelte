@@ -2,6 +2,8 @@
     /**
      * Button – reusable trigger; supports optional focus ring and element binding for accessibility.
      */
+    import { onMount, tick } from "svelte";
+
     export let onClick = () => {};
     export let type: any = "button";
     export let disabled: boolean = false;
@@ -9,9 +11,16 @@
     export let showFocusStroke = true;
     /** Optional: bind to get the underlying button DOM element (e.g. for focus return). */
     export let element: HTMLButtonElement | null = null;
+    /** When true, button receives focus when the page loads (for barrier-free first interaction). */
+    export let autofocus = false;
 
     const base = "w-full h-[40px] rounded-lg bg-white flex items-center justify-between px-4 hover:bg-gray-50 text-left cursor-pointer font-medium";
     const stroke = "focus:outline focus:outline-2 focus:outline-[#B0B0B0] focus:outline-offset-0 hover:outline hover:outline-2 hover:outline-[#B0B0B0] hover:outline-offset-0";
+
+    onMount(() => {
+        if (!autofocus) return;
+        tick().then(() => element?.focus());
+    });
 </script>
 
 <button

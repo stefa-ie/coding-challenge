@@ -66,7 +66,24 @@
         if (i >= 0 && i < opts.length) select(opts[i]);
     }
 
-    /** Arrow keys, Enter, Space, Escape for accessible listbox. */
+    /**
+     * Find next option index that starts with the given letter (case-insensitive).
+     * Searches from (currentIndex + 1) then wraps; repeated letters cycle through matches.
+     */
+    function findIndexByFirstLetter(letter: string, currentIndex: number): number | null {
+        const opts = $options;
+        const len = opts.length;
+        if (len === 0 || letter.length !== 1) return null;
+        const lower = letter.toLowerCase();
+        // Search from next item to end, then from start to current
+        for (let i = 1; i <= len; i++) {
+            const idx = (currentIndex + i) % len;
+            if (opts[idx].toLowerCase().startsWith(lower)) return idx;
+        }
+        return null;
+    }
+
+    /** Arrow keys, Enter, Space, Escape, and type-ahead (first letter) for accessible listbox. */
     function handleListboxKeydown(e: KeyboardEvent) {
         const opts = $options;
         const len = opts.length;
@@ -89,6 +106,15 @@
         if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             selectByIndex($focusedIndex);
+            return;
+        }
+        // Type-ahead: single letter jumps to next option starting with that letter
+        if (!e.ctrlKey && !e.metaKey && !e.altKey && e.key.length === 1) {
+            const next = findIndexByFirstLetter(e.key, $focusedIndex);
+            if (next != null) {
+                e.preventDefault();
+                focusedIndex.set(next);
+            }
         }
     }
 
