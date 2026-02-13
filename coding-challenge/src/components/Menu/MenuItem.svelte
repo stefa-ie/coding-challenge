@@ -32,7 +32,7 @@
     id={optionId}
     tabindex="-1"
     aria-selected={selected}
-    class="menu-item w-[238px] h-10 rounded px-4 text-gray-800 cursor-pointer flex items-center justify-between hover:bg-[#E1FF2C] {focused ? 'bg-[#E1FF2C]' : ''}"
+    class="menu-item w-[238px] h-10 rounded px-4 text-gray-800 cursor-pointer flex items-center justify-between hover:bg-[#E1FF2C] {focused && !selected ? 'bg-[#E1FF2C]' : ''}"
     on:click={choose}
     on:keydown={(e) => e.key === 'Enter' && choose()}>
     <span><slot /></span>
