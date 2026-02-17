@@ -31,7 +31,7 @@
     aria-haspopup="listbox"
     aria-expanded={$open}
     aria-controls={listboxId}
-    aria-label="Select a product"
+    aria-label={$selectedLabel ? `${$selectedLabel} selected. Select a product` : "Select a product"}
     onClick={toggle}
     showFocusStroke={!$open}
     autofocus={autofocus}

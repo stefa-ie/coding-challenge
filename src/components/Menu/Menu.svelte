@@ -12,6 +12,11 @@
     /** For Storybook: start with this option selected. */
     export let initialSelected: string | null = null;
 
+    /** Form field name – when set, a hidden input is rendered for native form submission. */
+    export let name: string | undefined = undefined;
+    /** Two-way bindable selected value. Use with bind:selected for form integration. */
+    export let selected: string | null = null;
+
     // --- State ---
     const open: Writable<boolean> = writable(false);
     const selectedLabel: Writable<string | null> = writable(null);
@@ -57,7 +62,13 @@
 
     function select(label: string) {
         selectedLabel.set(label);
+        selected = label;
         close();
+    }
+
+    // Sync bound selected (from parent) → internal state
+    $: if (selected !== $selectedLabel) {
+        selectedLabel.set(selected ?? null);
     }
 
     /** Called by each MenuItem on mount to get a stable id and index for ARIA. */
@@ -142,7 +153,8 @@
     });
 
     onMount(() => {
-        if (initialSelected != null) selectedLabel.set(initialSelected);
+        const initial = selected ?? initialSelected;
+        if (initial != null) selectedLabel.set(initial);
         if (initialOpen) {
             justOpened = true;
             tick().then(() => open.set(true));
@@ -152,5 +164,8 @@
 
 <!-- Wrapper for trigger + dropdown; dropdown is absolutely positioned inside. -->
 <div class="menu relative w-[250px]">
+    {#if name}
+        <input type="hidden" name={name} value={$selectedLabel ?? ""} />
+    {/if}
     <slot />
 </div>
