@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* Base: Inter regular 16px – applies app-wide (main app + Storybook via preview) */
+@layer base {
+  html,
+  body {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+  }
+}
+
+/* M3 typography: display/large (57px / 64px line-height / 400) – use for large display headings */
+@layer components {
+  .m3-display-large {
+    font-family: "Inter", sans-serif;
+    font-size: 57px;
+    line-height: 64px;
+    font-weight: 400;
+  }
+}
